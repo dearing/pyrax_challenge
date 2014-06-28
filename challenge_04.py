@@ -33,8 +33,20 @@ fqdn = sys.argv[1]
 ip = sys.argv[2]
 
 # Getting authentication errors, cannot test
-record = {"type": "A", "data": ip}
-dom = dns.create(
-    name=fqdn,
-    emailAddress="jacob.dearing@gmail.com",
-    records=[record])
+record = [{"type": "A", "data": ip, "ttl": 300, "name": fqdn}]
+
+try:
+    dom = dns.create(
+        name=fqdn,
+        emailAddress='admin@'+fqdn,
+        comment='challenge_04',
+        records=record
+        )
+    pass
+except pyrax.exceptions.DomainCreationFailed:
+    print 'unable to create {0}'.format(fqdn)
+    exit()
+except Exception, e:
+    raise
+
+print 'created successfully'
