@@ -12,6 +12,7 @@ Challenge 10: Write an application that will:
 
 '''
 
+import sys
 import pyrax
 
 
@@ -43,6 +44,17 @@ def server_callback(server):
     pyrax.utils.wait_until(lb, "status", "ACTIVE")
     print '[{0}] node {1} added for {2}'.format(target_lb, node.address, server.name)
 
+# ERROR if not enough arguments supplied
+if len(sys.argv) < 2:
+    print '''
+    Usage: {0} [FQDN]
+
+    This script will create 2 servers and add them to a new load balancer.
+    It will then create a DNS record based on [FQDN] to the load balancer.
+    Finally, it will create a default error page and assign it to the load balancer.
+
+    '''.format(sys.argv[0])
+    exit()
 # SETUP our creds, note this expects your keyring to be setup
 pyrax.keyring_auth()
 clb = pyrax.cloud_loadbalancers
@@ -51,6 +63,7 @@ dns = pyrax.cloud_dns
 
 # WORK to do
 target_flavor = '2'
+target_fqdn = sys.argv[1]
 target_image = 'bb02b1a3-bc77-4d17-ab5b-421d89850fca'
 target_lb = 'dearing-lb10'
 target_prefix = 'dearing_'
@@ -94,16 +107,31 @@ pyrax.utils.wait_until(lb, "status", "ACTIVE")
 lb.set_error_page(error_page)
 print 'custom error page added to {0}'.format(target_lb)
 
-# UNABLE to complete DNS targets at this time
-# lb_ip = lb.virtual_ips[0]
-#
-# UPADTE DNS for our load balancer
-# print '[{0}] creating A record for {1}'.format(target_lb, lb_ip)
-# record = {"type": "A", "data": ip}
-# dom = dns.create(
-#     name=fqdn,
-#     emailAddress="jacob.dearing@gmail.com",
-#     records=[record])
+# DESIGN our records for FQDN
+lb_ip = lb.virtual_ips[0].address
+recs = [{
+        "type": "A",
+        "data": lb_ip,
+        "ttl": 300,
+        "name": target_fqdn
+        }]
+
+# ATTEMPT to create target_fqdn with records
+try:
+    dom = dns.create(
+        name=target_fqdn,
+        emailAddress='admin@'+target_fqdn,
+        comment='challenge_10',
+        records=recs
+        )
+    pass
+except pyrax.exceptions.DomainCreationFailed:
+    print 'unable to create {0}'.format(target_fqdn)
+    exit()
+except Exception, e:
+    raise
+
+print 'created A record for {0} to {1}'.format(target_fqdn, lb_ip)
 
 # WAIT for server threads to complete
 print 'awaiting threads to converge'
