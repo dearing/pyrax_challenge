@@ -25,7 +25,7 @@ index = '''
 '''
 
 container_name = 'dearing-chal08'
-cname_target = 'chal08.dearing.systems'
+cname_target = 'chal08.dearing.link'
 
 print 'creating container {0}'.format(container_name)
 con = cf.create_container(container_name)
@@ -43,5 +43,24 @@ con.store_object('index.html', index, etag=chksum)
 print 'setting {0} to host index.html'.format(container_name)
 con.set_web_index_page('index.html')
 
-# UNABLE to complete DNS targets at this time
-print 'CNAME would be {0} {1}'.format(con.cdn_uri, cname_target)
+if con.cdn_uri is None:
+    print '{0} is not a valid CNAME'.format(con.cdn_uri)
+    exit()
+
+print 'adding CNAME for {0} => {1}'.format(con.cdn_uri, cname_target)
+
+record = [{"type": "CNAME", "data": con.cdn_uri, "ttl": 300, "name": cname_target}]
+
+try:
+    dom = dns.create(
+        name=cname_target,
+        emailAddress='admin@'+cname_target,
+        comment='challenge_04',
+        records=record
+        )
+    pass
+except pyrax.exceptions.DomainCreationFailed:
+    print 'unable to create {0}'.format(cname_target)
+    exit()
+except Exception, e:
+    raise
