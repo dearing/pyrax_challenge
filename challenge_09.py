@@ -38,16 +38,40 @@ server = cs.servers.create(fqdn, image, flavor)
 print 'waiting for build to complete....'
 pyrax.utils.wait_for_build(server)
 
-# UNABLE to complete DNS targets at this time
-print 'creating AAAA record for {0} to {1}'.format(
+# DESIGN our records for FQDN
+recs = [{
+        "type": "AAAA",
+        "data": server.networks['public'][0],
+        "ttl": 300,
+        "name": fqdn
+        }, {
+        "type": "A",
+        "data": server.networks['public'][1],
+        "ttl": 300,
+        "name": fqdn
+        }]
+
+# ATTEMPT to create FQDN with records
+try:
+    dom = dns.create(
+        name=fqdn,
+        emailAddress='admin@'+fqdn,
+        comment='challenge_09',
+        records=recs
+        )
+    pass
+except pyrax.exceptions.DomainCreationFailed:
+    print 'unable to create {0}'.format(fqdn)
+    exit()
+except Exception, e:
+    raise
+
+print 'created AAAA record for {0} to {1}'.format(
     fqdn,
     server.networks['public'][0]
     )
 
-print 'creating A record for {0} to {1}'.format(
+print 'created A record for {0} to {1}'.format(
     fqdn,
     server.networks['public'][1]
     )
-
-print 'deleting {0} {1}'.format(server.name, server.id)
-server.delete()
