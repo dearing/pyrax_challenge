@@ -20,11 +20,10 @@ def server_callback(server):
         )
 
     print '[{0}] creating node for {1}; awaiting'.format(lb_name, node.address)
-    pyrax.utils.wait_until(lb, "status", "ACTIVE", verbose=True)
-
+    pyrax.utils.wait_until(lb, "status", "ACTIVE")
+    
     lb.add_nodes([node])
-
-    pyrax.utils.wait_until(lb, "status", "ACTIVE", verbose=True)
+    pyrax.utils.wait_until(lb, "status", "ACTIVE")
     print '[{0}] node {1} added'.format(lb_name, node.address)
 
 
@@ -44,7 +43,7 @@ target_image = 'bb02b1a3-bc77-4d17-ab5b-421d89850fca'
 # Create our load balancer; async operation converge at callback
 vip = clb.VirtualIP(type="PUBLIC")
 lb = clb.create(lb_name, port=80, protocol="HTTP", virtual_ips=[vip])
-print 'created {0} with VIP {1}'.format(lb_name, vip)
+print 'created {0} with {1} vip'.format(lb_name, vip.type)
 
 # create the servers and assign the callback to add the nodes to the lb
 for target in targets:

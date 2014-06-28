@@ -38,6 +38,7 @@ server = cs.servers.create(fqdn, image, flavor)
 print 'waiting for build to complete....'
 pyrax.utils.wait_for_build(server)
 
+# UNABLE to complete DNS targets at this time
 print 'creating AAAA record for {0} to {1}'.format(
     fqdn,
     server.networks['public'][0]

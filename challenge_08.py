@@ -43,4 +43,5 @@ con.store_object('index.html', index, etag=chksum)
 print 'setting {0} to host index.html'.format(container_name)
 con.set_web_index_page('index.html')
 
+# UNABLE to complete DNS targets at this time
 print 'CNAME would be {0} {1}'.format(con.cdn_uri, cname_target)
