@@ -23,7 +23,7 @@ Write a script that creates a Cloud Database instance. This instance should cont
 ======
 Write a script that creates a CDN-enabled container in Cloud Files.
 
-Challenge 7:
+~~Challenge 7~~:
 ======
 Write a script that will create 2 Cloud Servers and add them as nodes to a new Cloud Load Balancer.
 
