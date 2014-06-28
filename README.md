@@ -11,7 +11,7 @@ Write a script that clones a server (takes an image and deploys the image as a n
 ======
 Write a script that accepts a directory as an argument as well as a container name. The script should upload the contents of the specified directory to the container (or create it if it doesn't exist). The script should handle errors appropriately. (Check for invalid paths, etc.)
 
-Challenge 4: 
+~~Challenge 4~~: 
 ======
 Write a script that uses Cloud DNS to create a new A record when passed a FQDN and IP address as arguments.
 
@@ -31,7 +31,7 @@ Challenge 8:
 ======
 Write a script that will create a static webpage served out of Cloud Files. The script must create a new container, cdn enable it, enable it to serve an index file, create an index file object, upload the object to the container, and create a CNAME record pointing to the CDN URL of the container.
 
-Challenge 9:
+~~Challenge 9~~:
 ======
 Write an application that when passed the arguments FQDN, image, and flavor it creates a server of the specified image and flavor with the same name as the fqdn, and creates a DNS entry for the fqdn pointing to the server's public IP.
 
