@@ -36,7 +36,7 @@ print 'creating server `{0}` based on {1} as flavor {2}'.format(
     server_flavor
     )
 
-server = cs.servers.create(name=server_name, image=image.id, flavor='2')
+server = cs.servers.create(name=server_name, image=image.id, flavor=server_flavor)
 pyrax.utils.wait_for_build(server)
 
 print '{0} created; now deleting...'.format(server.name)
