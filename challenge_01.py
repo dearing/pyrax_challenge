@@ -43,7 +43,6 @@ for target in targets:
         target_flavor,
         target_image
         )
-    exit
     server = cs.servers.create(
         target_name,
         target_image,
