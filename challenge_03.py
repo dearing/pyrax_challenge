@@ -28,23 +28,13 @@ if len(sys.argv) < 3:
     exit()
 
 path = sys.argv[1]
-container = sys.argv[2]
+container_name = sys.argv[2]
 
 # ERROR if path !extant
 if not os.path.exists(path):
     print path, 'does not exist!'
     exit()
 
-print 'uploading {0} to container {1}'.format(path, container)
-
-# CREATE container will return extant (non-distructive)
-cf.create_container(container)
-
-# TEST for dir and upload file
-for f in os.listdir(path):
-    file = path+'/'+f
-    if os.path.isfile(file):
-        chksum = pyrax.utils.get_checksum(file)
-        print 'uploading {0} to {1}'.format(file, container)
-        obj = cf.upload_file(container, file, etag=chksum)
-        print 'OK : {0} => {1}'.format(obj.name, obj.etag)
+print 'uploading {0} to container {1}'.format(path, container_name)
+container = cf.create_container(container_name)
+cf.sync_folder_to_container(path, container)
