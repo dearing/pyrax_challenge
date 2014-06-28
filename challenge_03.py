@@ -35,6 +35,7 @@ if not os.path.exists(path):
     print path, 'does not exist!'
     exit()
 
+# TODO: leading slashes => https://github.com/rackspace/pyrax/issues/402
 print 'uploading {0} to container {1}'.format(path, container_name)
 container = cf.create_container(container_name)
 cf.sync_folder_to_container(path, container)
