@@ -48,7 +48,7 @@ def server_callback(server):
     volume_name = server.name+'_volume'
     mount_uri = "/dev/xvdd"
     print '[{0}] creating CBS volume as {1}'.format(server.name, volume_name)
-    vol = cbs.create(name=target_name+'_volume', size=100)
+    vol = cbs.create(name=volume_name, size=100)
 
     print '[{0}] attaching {1} as {2}'.format(server.name, volume_name, mount_uri)
     vol.attach_to_instance(server, mountpoint=mount_uri)
