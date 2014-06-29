@@ -214,7 +214,7 @@ try:
     dom = dns.create(
         name=target_fqdn,
         emailAddress='admin@'+target_fqdn,
-        comment='challenge_10',
+        comment='challenge_11',
         records=recs
         )
     pass
