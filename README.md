@@ -46,7 +46,7 @@ Write an application that will:
 * Create a DNS record based on a FQDN for the LB VIP. 
 * Write the error page html to a file in cloud files for backup.
 
-Challenge 11: 
+~~Challenge 11~~: 
 ======
 Write an application that will:
 * Create an SSL terminated load balancer (Create self-signed certificate.)
