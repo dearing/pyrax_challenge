@@ -19,51 +19,67 @@ import pyrax
 # SETUP our creds, note this expects your keyring to be setup
 pyrax.keyring_auth()
 
+cf = pyrax.cloudfiles
+cs = pyrax.cloudservers
 cbs = pyrax.cloud_blockstorage
 cdb = pyrax.cloud_databases
-cf = pyrax.cloudfiles
 clb = pyrax.cloud_loadbalancers
 cnw = pyrax.cloud_networks
-cs = pyrax.cloudservers
 dns = pyrax.cloud_dns
 
 target = 'dearing'
+suffix = 'dearing.link'
+
+print 'Hunting targets starting with', target
 
 # NUKE SERVERS starting with target
+print 'Searching cloud servers'
 for server in cs.servers.list():
     if server.name.startswith(target):
-        print '[CSs] would nuke {0} - {1}'.format(server.id, server.name)
+        print '-- nuke {0} {1}'.format(server.id, server.name)
+        server.delete()
 
-for image in cs.images.list():
-    if image.name.startswith(target):
-        print '[CSi] would nuke {0} - {1}'.format(server.id, server.name)
+print 'Searching cloud server images'
+for image in cs.list_images():
+    if image.human_id.startswith(target):
+        print '-- nuke {0} {1} {2}'.format(image.id, image.name, image.status)
+        image.delete()
 
+print 'Searching cloud block storage'
 for block in cbs.list():
     if block.name.startswith(target):
-        print '[CBS] would nuke {0} {1}'.format(block.id, block.name)
+        print '-- nuke {0} {1}'.format(block.id, block.name)
+        block = pyrax.utils.wait_until(block, 'status', 'available')
+        block.delete()
 
+print 'Searching cloud databases'
 for instance in cdb.list():
     if instance.name.startswith(target):
-        print '[CDB] would nuke {0} {1}'.format(instance.id, instance.name)
+        print '-- nuke {0} {1}'.format(instance.id, instance.name)
+        instance.delete()
 
+print 'Searching cloud load balancers'
 for lb in clb.list():
     if lb.name.startswith(target):
-        print '[CLB] would nuke {0} {1}'.format(lb.id, lb.name)
+        print '-- nuke {0} {1}'.format(lb.id, lb.name)
+        lb = pyrax.utils.wait_until(lb, 'status', ['ACTIVE', 'ERROR'])
+        lb.delete()
 
+print 'Searching containers'
 for con in cf.list():
     if con.name.startswith(target):
-        print '[ CF] would nuke {0} {1}'.format(con.id, con.name)
+        print '-- nuke {0} {1}'.format(con.id, con.name)
 
-try:
-    for network in cnw.find_network_by_label(target):
-        print '[CNW] would nuke {0} {1}'.format(network.id, network.name)
-except:
-    pass
+print 'Searching cloud networks'
+for nw in cnw.list():
+    if nw.label.startswith(target):
+        print '-- nuke {0} {1} {2}'.format(nw.id, nw.label, nw.cidr)
+        nw.delete()
 
-try:
-    for network in cnw.find_network_by_name(target):
-        print '[CNW] would nuke {0} {1}'.format(network.id, network.name)
-except:
-    pass
+print 'Searching cloud dns'
+for dom in dns.list():
+    if dom.name.endswith(suffix):
+        print '-- nuke {0} {1} '.format(dom.id, dom.name)
+        dom.delete(delete_subdomains=True)
 
 print 'Done.'
