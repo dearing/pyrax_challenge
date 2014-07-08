@@ -67,10 +67,10 @@ if len(sys.argv) < 2:
     print '''
     Usage: {0} [FQDN]
 
-    This script will create 2 servers and add them to a new load balancer.
-    It will then create a DNS record based on [FQDN] to the load balancer.
-    Finally, it will create a default error page and assign it to the load balancer.
-
+    creates an ssl terminated LB with FQDN A record
+    creates 3 servers behind the LB with a new CBS volume attached to each
+    creates an isolated network to interconnect the 3 servers
+    
     '''.format(sys.argv[0])
     exit()
 
