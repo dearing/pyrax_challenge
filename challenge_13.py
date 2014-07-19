@@ -68,7 +68,12 @@ for lb in clb.list():
 print 'Searching containers'
 for con in cf.list():
     if con.name.startswith(target):
-        print '-- nuke {0} {1}'.format(con.id, con.name)
+        for obj in con.get_objects():
+            print '-- nuke {0} {1}'.format(con.name, obj.name)
+            obj.delete()
+        print '-- nuke {0}'.format(con.name)
+        con.delete()
+
 
 print 'Searching cloud networks'
 for nw in cnw.list():
