@@ -178,7 +178,7 @@ for target in targets:
 error_page = '''
 <html>
 <head>
-<title>challenge_10</title>
+<title>challenge_11</title>
 </head>
 <body>error page for challenge 10</body>
 </html>

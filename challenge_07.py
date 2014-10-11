@@ -21,7 +21,6 @@ def server_callback(server):
 
     print '[{0}] creating node for {1}; awaiting'.format(lb_name, node.address)
     pyrax.utils.wait_until(lb, "status", "ACTIVE")
-    
     lb.add_nodes([node])
     pyrax.utils.wait_until(lb, "status", "ACTIVE")
     print '[{0}] node {1} added'.format(lb_name, node.address)

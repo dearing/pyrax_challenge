@@ -1,21 +1,21 @@
 
-~~Challenge 1~~: 
+~~Challenge 1~~:
 ======
-Write a script that builds three 512 MB Cloud Servers that following a similar naming convention. (ie., web1, web2, web3) and returns the IP and login credentials for each server. Use any image you want. 
+Write a script that builds three 512 MB Cloud Servers that following a similar naming convention. (ie., web1, web2, web3) and returns the IP and login credentials for each server. Use any image you want.
 
-~~Challenge 2~~: 
+~~Challenge 2~~:
 ======
 Write a script that clones a server (takes an image and deploys the image as a new server)
 
-~~Challenge 3~~: 
+~~Challenge 3~~:
 ======
 Write a script that accepts a directory as an argument as well as a container name. The script should upload the contents of the specified directory to the container (or create it if it doesn't exist). The script should handle errors appropriately. (Check for invalid paths, etc.)
 
-~~Challenge 4~~: 
+~~Challenge 4~~:
 ======
 Write a script that uses Cloud DNS to create a new A record when passed a FQDN and IP address as arguments.
 
-~~Challenge 5~~: 
+~~Challenge 5~~:
 ======
 Write a script that creates a Cloud Database instance. This instance should contain at least one database, and the database should have at least one user that can connect to it.
 
@@ -42,11 +42,11 @@ Write an application that will:
 * Create 2 servers, supplying a ssh key to be installed at /root/.ssh/authorized_keys.
 * Create a load balancer
 * Add the 2 new servers to the LB
-* Set up LB monitor and custom error page. 
-* Create a DNS record based on a FQDN for the LB VIP. 
+* Set up LB monitor and custom error page.
+* Create a DNS record based on a FQDN for the LB VIP.
 * Write the error page html to a file in cloud files for backup.
 
-~~Challenge 11~~: 
+~~Challenge 11~~:
 ======
 Write an application that will:
 * Create an SSL terminated load balancer (Create self-signed certificate.)

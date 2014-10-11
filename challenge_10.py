@@ -18,7 +18,7 @@ import pyrax
 
 def server_callback(server):
     '''
-    ON CALLBACK - 
+    ON CALLBACK -
         report server
         create node for server
         add server to load balancer

@@ -2,8 +2,8 @@
 
 '''
 Challenge 13:
-This one might need to be altered to a particular region etc.. 
-Don't wipe out servers you want to keep on your account obviously!! 
+This one might need to be altered to a particular region etc..
+Don't wipe out servers you want to keep on your account obviously!!
 Write an application that nukes everything in your Cloud Account. It should:
     Delete all Cloud Servers
     Delete all Custom Images
@@ -73,7 +73,6 @@ for con in cf.list():
             obj.delete()
         print '-- nuke {0}'.format(con.name)
         con.delete()
-
 
 print 'Searching cloud networks'
 for nw in cnw.list():

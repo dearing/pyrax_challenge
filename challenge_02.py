@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 '''
-Challenge 2: Write a script that clones a server 
+Challenge 2: Write a script that clones a server
 (takes an image and deploys the image as a new server)
 '''
 
